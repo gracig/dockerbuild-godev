@@ -1,13 +1,10 @@
 FROM golang:1.8
 MAINTAINER Gerson Graciani
 
-#Copies .vimrc to root
-ADD root/ /root/
-ADD etc/ /etc/
 
 #Build and install vim
 RUN apt-get update -y \
-&&  apt-get install -y ncurses-dev libtolua-dev exuberant-ctags \
+&&  apt-get install -y ncurses-dev libtolua-dev exuberant-ctags unzip \
 &&  ln -s /usr/include/lua5.2/ /usr/include/lua \
 &&  ln -s /usr/lib/x86_64-linux-gnu/liblua5.2.so /usr/lib/liblua.so \
 &&  cd /tmp \
@@ -58,6 +55,21 @@ RUN /bin/true \
 &&  go get -u github.com/golang/protobuf/protoc-gen-go \
 &&  /bin/true
 
+#Copies .vimrc to root
+ADD root/ /root/
+ADD etc/ /etc/
+RUN vim +PluginInstall +qall
 #ENTRYPOINT ["vim",  "+PluginInstall",  "+qall"]
+
+#INstalling Google Protobuffer
+RUN /bin/true \ 
+&&  cd /tmp \
+&&  curl -OL https://github.com/google/protobuf/releases/download/v3.2.0rc2/protoc-3.2.0rc2-linux-x86_64.zip \
+&&  mkdir -p /opt/protoc-3.2 \
+&&  cd /opt/protoc-3.2 \
+&&  unzip /tmp/protoc-3.2.0rc2-linux-x86_64.zip \
+&& /bin/true
+
+ENV PATH=/opt/protoc-3.2/bin:$PATH
 
 CMD ["bash"]
