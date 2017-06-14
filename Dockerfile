@@ -1,4 +1,4 @@
-FROM golang:1.8
+FROM golang:1.8.3
 MAINTAINER Gerson Graciani
 
 
@@ -64,12 +64,12 @@ RUN vim +PluginInstall +qall
 #INstalling Google Protobuffer
 RUN /bin/true \ 
 &&  cd /tmp \
-&&  curl -OL https://github.com/google/protobuf/releases/download/v3.2.0rc2/protoc-3.2.0rc2-linux-x86_64.zip \
-&&  mkdir -p /opt/protoc-3.2 \
-&&  cd /opt/protoc-3.2 \
-&&  unzip /tmp/protoc-3.2.0rc2-linux-x86_64.zip \
+&&  curl -OL https://github.com/google/protobuf/releases/download/v3.3.0/protoc-3.3.0-linux-x86_64.zip \
+&&  mkdir -p /opt/protoc-3.3 \
+&&  cd /opt/protoc-3.3 \
+&&  unzip /tmp/protoc-3.3.0-linux-x86_64.zip \
 && /bin/true
 
-ENV PATH=/opt/protoc-3.2/bin:$PATH
+ENV PATH=/opt/protoc-3.3/bin:$PATH
 
 CMD ["bash"]
