@@ -74,6 +74,9 @@ RUN /bin/true \
 &&  unzip /tmp/protoc-3.3.0-linux-x86_64.zip \
 && /bin/true
 
+#Installing docker
+RUN  /usr/bin/curl https://get.docker.com/ | /bin/bash
+
 ENV PATH=/opt/protoc-3.3/bin:$PATH
 
 CMD ["bash"]
