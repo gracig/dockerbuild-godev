@@ -77,6 +77,17 @@ RUN /bin/true \
 #Installing docker
 RUN  /usr/bin/curl https://get.docker.com/ | /bin/bash
 
-ENV PATH=/opt/protoc-3.3/bin:$PATH
+ENV JAVA_HOME=/usr/local/java/jdk1.8.0_131
+ENV PATH=/opt/protoc-3.3/bin:$JAVA_HOME/bin:$PATH
+
+#Installing buildr/java/ruby
+RUN apt-get install -y ruby-full \
+&& mkdir -p /usr/local/java \
+&& cd /usr/local/java \
+&& wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.tar.gz \
+&& tar xvzf jdk-8u131-linux-x64.tar.gz \
+&& gem install buildr
+
+
 
 CMD ["bash"]
