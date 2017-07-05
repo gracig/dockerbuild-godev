@@ -75,10 +75,14 @@ RUN /bin/true \
 && /bin/true
 
 #Installing docker
-RUN  /usr/bin/curl https://get.docker.com/ | /bin/bash
+ENV COMPOSE_VERSION=1.14.0
+RUN  /usr/bin/curl https://get.docker.com/ | /bin/bash \
+&& sh -c "curl -L https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose" \
+&& chmod +x /usr/local/bin/docker-compose \
+&& sh -c "curl -L https://raw.githubusercontent.com/docker/compose/${COMPOSE_VERSION}/contrib/completion/bash/docker-compose > /etc/bash_completion.d/docker-compose"
 
 ENV JAVA_HOME=/usr/local/java/jdk1.8.0_131
-ENV PATH=/opt/protoc-3.3/bin:$JAVA_HOME/bin:$PATH
+ENV PATH=/opt/protoc-3.3/bin:$JAVA_HOME/bin:/usr/local/bin:$PATH
 
 #Installing buildr/java/ruby
 RUN apt-get install -y ruby-full \
